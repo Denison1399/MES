@@ -1,0 +1,74 @@
+using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium.Appium;
+using OpenQA.Selenium.Appium.Windows;
+
+
+
+namespace WinappTest
+
+{
+    [TestClass]
+    public class UnitTest1
+
+    {
+        private WindowsDriver<WindowsElement> driver;
+
+        [TestMethod]
+        public void TestMethod1()
+
+        {
+            System.Diagnostics.Process.Start(@"C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe");
+
+            AppiumOptions o = new AppiumOptions();
+            o.AddAdditionalCapability("app", @"C:\Windows\System32\Notepad.exe");
+            o.AddAdditionalCapability("deviceName", "WindowsPC");
+
+
+            driver = new WindowsDriver<WindowsElement>
+                (new Uri("http://127.0.0.1:4723"), o);
+            
+        }
+            public void TestNotepad1() {
+
+                //  Type "Hello World"
+
+               driver.FindElementByName("Edit").SendKeys("Hello World"); 
+                
+
+
+                // Save the file
+
+                driver.FindElementByName("File").Click();
+                driver.FindElementByName("Save As...").Click();
+                driver.FindElementByAccessibilityId("FileNameControlHost").SendKeys("First Test");
+                driver.FindElementByName("Save").Click();
+
+                // Reopen the file and re-edit the file name
+
+                driver.FindElementByName("File").Click();
+                driver.FindElementByName("Open...").Click();
+                driver.FindElementByAccessibilityId("FileNameControlHost").SendKeys("First Test");
+                driver.FindElementByName("Open").Click();
+
+                // Re-edit the file name
+
+                WindowsElement fileNameTextBox = driver.FindElementByAccessibilityId("FileNameControlHost");
+                fileNameTextBox.SendKeys(OpenQA.Selenium.Keys.Control + "a");
+                fileNameTextBox.SendKeys("First Task");
+
+            
+            }
+
+
+
+
+        public void Finish()
+
+        {
+            driver.Quit();
+        }
+
+        }
+    }
+
