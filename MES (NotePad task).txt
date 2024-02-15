@@ -25,41 +25,29 @@ namespace WinappTest
             o.AddAdditionalCapability("deviceName", "WindowsPC");
 
 
+          
+
             driver = new WindowsDriver<WindowsElement>
                 (new Uri("http://127.0.0.1:4723"), o);
             
+            driver.FindElementByName("Edit").Click();
+            driver.FindElementByName("Paste").Click();
+            driver.FindElementByName("File").Click();
+            var saveAsOption = driver.FindElementByName("Save as");
+            saveAsOption.Click();
+
+            // Wait for the "Save As" dialog to appear
+            System.Threading.Thread.Sleep(2000);
+
+            // Find the file name input field and set the file name
+            var fileNameInput = driver.FindElementByAccessibilityId("01000080520C0A00FCFFFFFF00000000");
+            fileNameInput.SendKeys("First test");
+
+            // Click on the "Save" button
+            var saveButton = driver.FindElementByName("Save");
+            saveButton.Click();
+
         }
-            public void TestNotepad1() {
-
-                //  Type "Hello World"
-
-               driver.FindElementByName("Edit").SendKeys("Hello World"); 
-                
-
-
-                // Save the file
-
-                driver.FindElementByName("File").Click();
-                driver.FindElementByName("Save As...").Click();
-                driver.FindElementByAccessibilityId("FileNameControlHost").SendKeys("First Test");
-                driver.FindElementByName("Save").Click();
-
-                // Reopen the file and re-edit the file name
-
-                driver.FindElementByName("File").Click();
-                driver.FindElementByName("Open...").Click();
-                driver.FindElementByAccessibilityId("FileNameControlHost").SendKeys("First Test");
-                driver.FindElementByName("Open").Click();
-
-                // Re-edit the file name
-
-                WindowsElement fileNameTextBox = driver.FindElementByAccessibilityId("FileNameControlHost");
-                fileNameTextBox.SendKeys(OpenQA.Selenium.Keys.Control + "a");
-                fileNameTextBox.SendKeys("First Task");
-
-            
-            }
-
 
 
 
@@ -68,7 +56,7 @@ namespace WinappTest
         {
             driver.Quit();
         }
-
-        }
+        
     }
+}
 
